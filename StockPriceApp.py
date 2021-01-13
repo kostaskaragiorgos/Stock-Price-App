@@ -7,10 +7,9 @@ st.write("""
 
 
 st.sidebar.header('Show')
-graphnames = ['Open', 'Close','High', 'Low']
+graphnames = ['Open', 'Close','High', 'Low', 'Volume', 'Dividends', 'Stock Splits']
 selected_graph = st.sidebar.selectbox('Graph', graphnames)
 user_input = st.text_area("Enter the Ticker Symbol", value="Ticker")
-print(selected_graph)
 
 tickerData = yf.Ticker(user_input)
 start_date = st.date_input('Start date')
@@ -22,4 +21,7 @@ st.write("""# TICKER: """ +str(user_input)+ """\n # FROM: """ + str(start_date) 
 
 st.write( """ # """ + str(selected_graph))
 
-#st.line_chart(tickerDf.selected_graph.lower())
+if selected_graph == "Dividends" or selected_graph == "Stock Splits":
+    st.bar_chart(tickerDf[str(selected_graph)])
+else:
+    st.line_chart(tickerDf[str(selected_graph)])
